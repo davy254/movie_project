@@ -10,5 +10,26 @@
             </div>
         
         {% endfor %}
+
+        <div class="justify-content-center w-100 mt-3" style="display:flex">
+    
+        {% if latest_movie.has_previous %}
+            <a class="btn btn-outline-dark mb-4 me-1"  href="?page={{ latest_movie.previous_page_number }}">Previous</a>
+        {% endif %}
+        {% for num in latest_movie.paginator.page_range %}
+            {% if latest_movie.number == num %}
+                <a class="btn btn-dark mb-4 me-1" style= href="?page= {{ num }}"> {{ num }}</a>
+            {% elif  num > latest_movie.number|add:'-3' and num < latest_movie.number|add:'3' %}
+                <a class="btn btn-outline-dark mb-4 me-1"  href="?page= {{ num }}"> {{ num }}</a>
+            {% endif %}
+
+        {% endfor%}
+        {% if latest_movie.has_next %}
+            <a class="btn btn-outline-dark mb-4"  href="?page={{ latest_movie.next_page_number}}">Next</a>
+        {% endif %}
+
+    
+
+    </div>
     </div>
 {% endblock content %}

@@ -1,6 +1,7 @@
 # movies/views.py
 import json
 from django.shortcuts import render
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from tmdbv3api import TMDb
 from tmdbv3api import Movie
 import requests
@@ -32,7 +33,22 @@ def latest_movies(request):
         else:
             movies.extend(movie_data.get('results'))
 
-    print(movies)
-    context = {'latest_movie': movies}
+
+    # Dispaly movies per page
+    movies_per_page = 36
+
+    paginator = Paginator(movies, movies_per_page)
+
+    page_number = request.GET.get('page')
+    try:
+        current_page = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        # If the page parameter is not an integer, deliver the first page
+        current_page = paginator.get_page(1)
+    except EmptyPage:
+        # If the page is out of range (e.g., 9999), deliver the last page
+        current_page = paginator.get_page(paginator.num_pages)
+    print(current_page)
+    context = {'latest_movie': current_page}
     return render(request, 'movie_app/index.html', context)
 
