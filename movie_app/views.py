@@ -12,7 +12,7 @@ def latest_movies(request):
     Function for getting latest movies 
     """
     movies = None
-    pages = 2
+    pages = 100
     for page in range(1,pages + 1):
         url = "https://api.themoviedb.org/3/movie/now_playing"
         print(f'page is {page}')
