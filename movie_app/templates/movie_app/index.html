@@ -1,0 +1,14 @@
+{% extends "movie_app/base.html" %}
+
+
+{% block content %}
+    <div class="d-flex flex-wrap">
+        {% for movie in latest_movie %}
+
+            <div class="card me-2" style="width: 11rem;">
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="...">
+            </div>
+        
+        {% endfor %}
+    </div>
+{% endblock content %}
