@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a Django web application that displays a list of latest movies using the TMDb API (The Movie Database). Users can view details of each movie, and the application supports pagination.
+This is a Django web application that displays a list of latest movies using the TMDb API (The Movie Database). Users can view details of each movie.
 
 ## Features
 
@@ -16,21 +16,21 @@ This is a Django web application that displays a list of latest movies using the
 
 Make sure you have the following installed:
 
-- Python (version 3.x)
-- Django
+- Python (version 3.10)
+- Django (version 4.2)
 
 ### Installation
 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/django-imdb-app.git
+    git clone https://github.com/davy254/movie_project
     ```
 
 2. Navigate to the project directory:
 
     ```bash
-    cd django-imdb-app
+    cd movie_project
     ```
 
 3. Install the required dependencies:
