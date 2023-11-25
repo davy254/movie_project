@@ -1,13 +1,19 @@
 {% extends "movie_app/base.html" %}
+{% load static %}
+{% load carousel_tag %}
+
+{% block carousel %}
+    {% render_carousel %} 
+{% endblock carousel %}
 
 
 {% block content %}
     <div class="d-flex flex-wrap">
         {% for movie in latest_movie %}
 
-            <div class="card me-2" style="width: 11rem;">
+            <a href="{% url "movie_app:movie-detail" movie.id %}"  class="card me-2" style="width: 11rem;">
                 <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="...">
-            </div>
+            </a>
         
         {% endfor %}
 

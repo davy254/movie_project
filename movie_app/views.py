@@ -1,4 +1,3 @@
-# movies/views.py
 import json
 from django.shortcuts import render
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -48,7 +47,28 @@ def latest_movies(request):
     except EmptyPage:
         # If the page is out of range (e.g., 9999), deliver the last page
         current_page = paginator.get_page(paginator.num_pages)
-    print(current_page)
+    
     context = {'latest_movie': current_page}
     return render(request, 'movie_app/index.html', context)
 
+
+def movie_detail(request, movie_id):
+        """
+        Movie to display details of a movie
+        """
+        url = f'https://api.themoviedb.org/3/movie/{movie_id}'
+        
+
+        headers = {
+            "accept": "application/json",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZDVlNDlkNzQyNDVkNGZiNzg1YTc0YjY1NzI3ZWZkNCIsInN1YiI6IjY1NTQ3Y2I3NTM4NjZlMDBhYmFhYTAwYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.uNLKtu3ip1TMnNrN5RPKkEYcDJXI-X2d_qrp_AdGNoE"
+        }
+
+        
+
+        response = requests.get(url, headers=headers)
+        movie_data = json.loads(response.content)
+        print(f'movie: {movie_data}')
+        context = {'movie':movie_data}
+
+        return render(request,'movie_app/movie_detail.html', context)
