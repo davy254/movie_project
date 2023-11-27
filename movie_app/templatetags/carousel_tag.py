@@ -7,6 +7,6 @@ register = template.Library()
 def render_carousel(context):
     # Add any carousel rendering logic here
 
-    latest_movie = context.get('latest_movie', [])
+    latest_movie = context.get('latest_movies', [])
     
-    return render_to_string('movie_app/carousel.html', {'latest_movie': latest_movie})
+    return render_to_string('movie_app/carousel.html', {'latest_movies': latest_movie})
