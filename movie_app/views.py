@@ -9,11 +9,14 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-def fetch_tmdb_data(page, url):
+def fetch_tmdb_data(*args, **kwargs):
     """
     fetch data from The movie Db
     """
-    url = url
+    url = kwargs.get('url')
+    page = kwargs.get('page')
+    movie_id = kwargs.get('movie_id')
+
     headers = {
         "accept": "application/json",
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZDVlNDlkNzQyNDVkNGZiNzg1YTc0YjY1NzI3ZWZkNCIsInN1YiI6IjY1NTQ3Y2I3NTM4NjZlMDBhYmFhYTAwYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.uNLKtu3ip1TMnNrN5RPKkEYcDJXI-X2d_qrp_AdGNoE"
@@ -24,7 +27,13 @@ def fetch_tmdb_data(page, url):
     }
 
     try:
-        response = requests.get(url, headers=headers, params=params)
+        if movie_id:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()  # Raise HTTPError for bad responses
+            movie_data = response.json()
+            return movie_data
+        else:
+            response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()  # Raise HTTPError for bad responses
         movie_data = response.json()
         return movie_data.get('results', [])
@@ -44,7 +53,7 @@ def latest_movies(request):
     page = 1
     while True:
         logger.debug(f'Fetching page {page} from TMDb API')
-        page_data = fetch_tmdb_data(page, url)
+        page_data = fetch_tmdb_data(page=page, url=url)
 
         if not page_data:
             # No more results, break out of the loop
@@ -78,18 +87,7 @@ def movie_detail(request, movie_id):
         Movie to display details of a movie
         """
         url = f'https://api.themoviedb.org/3/movie/{movie_id}'
-        
-
-        headers = {
-            "accept": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZDVlNDlkNzQyNDVkNGZiNzg1YTc0YjY1NzI3ZWZkNCIsInN1YiI6IjY1NTQ3Y2I3NTM4NjZlMDBhYmFhYTAwYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.uNLKtu3ip1TMnNrN5RPKkEYcDJXI-X2d_qrp_AdGNoE"
-        }
-
-        
-
-        response = requests.get(url, headers=headers)
-        movie_data = json.loads(response.content)
-        print(f'movie: {movie_data}')
+        movie_data = fetch_tmdb_data(url=url, movie_id = movie_id)
         context = {'movie':movie_data}
 
         return render(request,'movie_app/movie_detail.html', context)
