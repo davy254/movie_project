@@ -9,7 +9,7 @@
 
 {% block content %}
     <div class="d-flex flex-wrap">
-        {% for movie in latest_movie %}
+        {% for movie in latest_movies %}
 
             <a href="{% url "movie_app:movie-detail" movie.id %}"  class="card me-2" style="width: 11rem;">
                 <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="...">
@@ -18,24 +18,20 @@
         {% endfor %}
 
         <div class="justify-content-center w-100 mt-3" style="display:flex">
-    
-        {% if latest_movie.has_previous %}
-            <a class="btn btn-outline-dark mb-4 me-1"  href="?page={{ latest_movie.previous_page_number }}">Previous</a>
-        {% endif %}
-        {% for num in latest_movie.paginator.page_range %}
-            {% if latest_movie.number == num %}
-                <a class="btn btn-dark mb-4 me-1" style= href="?page= {{ num }}"> {{ num }}</a>
-            {% elif  num > latest_movie.number|add:'-3' and num < latest_movie.number|add:'3' %}
-                <a class="btn btn-outline-dark mb-4 me-1"  href="?page= {{ num }}"> {{ num }}</a>
-            {% endif %}
+                {% if latest_movies.has_previous %}
+                    <a class="btn btn-outline-dark mb-4 me-1"  href="?page={{ latest_movies.previous_page_number }}">Previous</a>
+                {% endif %}
+                {% for num in latest_movies.paginator.page_range %}
+                    {% if latest_moviess.number == num %}
+                        <a class="btn btn-dark mb-4 me-1" style= href="?page= {{ num }}"> {{ num }}</a>
+                    {% elif  num > latest_movies.number|add:'-3' and num < latest_movies.number|add:'3' %}
+                        <a class="btn btn-outline-dark mb-4 me-1"  href="?page= {{ num }}"> {{ num }}</a>
+                    {% endif %}
 
-        {% endfor%}
-        {% if latest_movie.has_next %}
-            <a class="btn btn-outline-dark mb-4"  href="?page={{ latest_movie.next_page_number}}">Next</a>
-        {% endif %}
-
-    
-
-    </div>
+                {% endfor%}
+                {% if latest_movies.has_next %}
+                    <a class="btn btn-outline-dark mb-4"  href="?page={{ latest_movies.next_page_number}}">Next</a>
+                {% endif %}
+        </div>
     </div>
 {% endblock content %}
