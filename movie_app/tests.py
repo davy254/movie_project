@@ -4,7 +4,7 @@ from .views import fetch_tmdb_data
 
 class TestFetchTmdbData(unittest.TestCase):
 
-    @patch('your_module.requests.get')
+    @patch('views.requests.get')
     def test_fetch_tmdb_data_with_results(self, mock_get):
         # Mocking the requests.get function
         mock_response = MagicMock()
@@ -19,7 +19,7 @@ class TestFetchTmdbData(unittest.TestCase):
         self.assertEqual(result, [{'title': 'Movie 1'}, {'title': 'Movie 2'}])
         mock_get.assert_called_once_with('mock_url', headers=..., params={'page': 1})
 
-    @patch('your_module.requests.get')
+    @patch('views.requests.get')
     def test_fetch_tmdb_data_with_movie_id(self, mock_get):
         # Mocking the requests.get function
         mock_response = MagicMock()
@@ -34,7 +34,7 @@ class TestFetchTmdbData(unittest.TestCase):
         self.assertEqual(result, {'title': 'Mock Movie'})
         mock_get.assert_called_once_with('mock_url', headers=...)
 
-    @patch('your_module.requests.get')
+    @patch('views.requests.get')
     def test_fetch_tmdb_data_with_request_exception(self, mock_get):
         # Mocking the requests.get function to raise an exception
         mock_get.side_effect = requests.exceptions.RequestException('Mock Request Exception')
