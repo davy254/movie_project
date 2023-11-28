@@ -1,4 +1,4 @@
-# Django IMDb Movie App
+# Django TMDb Movie App
 [![Django CI](https://github.com/davy254/movie_project/actions/workflows/django.yml/badge.svg)](https://github.com/davy254/movie_project/actions/workflows/django.yml)
 ## Overview
 
