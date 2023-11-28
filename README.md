@@ -1,5 +1,5 @@
 # Django IMDb Movie App
-[![Django CI(https://github.com/davy254/movie_project/actions/workflows/django.yml/badge.svg(https://github.com/davy254/movie_project/actions/workflows/django.yml)
+[![Django CI](https://github.com/davy254/movie_project/actions/workflows/django.yml/badge.svg)](https://github.com/davy254/movie_project/actions/workflows/django.yml)
 ## Overview
 
 This is a Django web application that displays a list of latest movies using the TMDb API (The Movie Database). Users can view details of each movie.
