@@ -34,9 +34,9 @@ def fetch_tmdb_data(*args, **kwargs):
             return movie_data
         else:
             response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()  # Raise HTTPError for bad responses
-        movie_data = response.json()
-        return movie_data.get('results', [])
+            response.raise_for_status()  # Raise HTTPError for bad responses
+            movie_data = response.json()
+            return movie_data.get('results', [])
     except requests.exceptions.RequestException as e:
         # Handle exception (e.g., log the error, provide a default response)
         logger.error(f"Error fetching TMDb data: {e}")
