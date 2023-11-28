@@ -1,6 +1,8 @@
 import json
 import logging
 from django.shortcuts import render
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from tmdbv3api import TMDb
 from tmdbv3api import Movie
@@ -26,22 +28,37 @@ def fetch_tmdb_data(*args, **kwargs):
         'page': page,
     }
 
+    cache_key = f"tmdb_data_{url}_{movie_id}_{page}"
+    cached_data = cache.get(cache_key)
+
+    if cached_data is not None:
+        print(f"Returning cached data for key: {cache_key}")
+        return cached_data
+
     try:
         if movie_id:
             response = requests.get(url, headers=headers)
             response.raise_for_status()  # Raise HTTPError for bad responses
             movie_data = response.json()
-            return movie_data
+    
         else:
             response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()  # Raise HTTPError for bad responses
-            movie_data = response.json()
-            return movie_data.get('results', [])
+            movie_data = response.json().get('results', [])
+            
+        
+        # Cache the data for future requests
+        cache.set(cache_key, movie_data, timeout=60 * 15)  # Cache for 15 minutes
+        print(f"Setting data in cache for key: {cache_key}")
+        return movie_data
+            
+        
     except requests.exceptions.RequestException as e:
         # Handle exception (e.g., log the error, provide a default response)
         logger.error(f"Error fetching TMDb data: {e}")
         return []
     
+@cache_page(60 * 15)  # Cache for 15 minutes    
 def latest_movies(request):
     """
     Function for dispaying the latest movies 
